@@ -1,9 +1,10 @@
 import HeroBanner from "@/components/HeroBanner";
+import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
 
 export default function Home() {
   return (
-    <main className="pb-10">
+    <main>
       <HeroBanner />
       <Wrapper>
         {/* heading and paragaph start */}
@@ -20,7 +21,14 @@ export default function Home() {
         {/* heading and paragaph end */}
 
         {/* products grid start */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+        </div>
         {/* products grid end */}
       </Wrapper>
     </main>

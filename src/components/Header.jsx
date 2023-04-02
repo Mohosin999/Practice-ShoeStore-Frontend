@@ -43,7 +43,7 @@ const Header = () => {
       className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
     >
       <Wrapper className={"h-[60px] flex justify-between items-center"}>
-        {/* header logo */}
+        {/* left side header logo */}
         <Link href={"/"}>
           <img
             src="/logo.svg"
@@ -52,7 +52,7 @@ const Header = () => {
           />
         </Link>
 
-        {/* header menu */}
+        {/* middle side header menu */}
         <Menu showCatMenu={showCatMenu} setShowCatMenu={setShowCatMenu} />
 
         {/* header mobile menu */}
@@ -64,7 +64,7 @@ const Header = () => {
           />
         )}
 
-        {/* header menu icons */}
+        {/* right side header menu icons */}
         <div className="flex items-center gap-2 text-black">
           {/* icon start */}
           <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
@@ -76,16 +76,18 @@ const Header = () => {
           {/* icon end */}
 
           {/* icon start */}
-          <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
-            <BsCart className="text-[15px] md:text-[20px]" />
-            <div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[14px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex items-center justify-center px-[2px] md:px[5px]">
-              5
+          <Link href={"/cart"}>
+            <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
+              <BsCart className="text-[15px] md:text-[20px]" />
+              <div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[14px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex items-center justify-center px-[2px] md:px[5px]">
+                5
+              </div>
             </div>
-          </div>
+          </Link>
           {/* icon end */}
 
           {/* mobile menu icon start */}
-          <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative -mr-2">
+          <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex md:hidden justify-center items-center hover:bg-black/[0.05] cursor-pointer relative -mr-2">
             {mobileMenu ? (
               <VscChromeClose
                 className="text-[16px]"

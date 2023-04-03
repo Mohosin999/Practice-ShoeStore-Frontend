@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart } from "react-icons/bs";
 import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
-
 import Wrapper from "./Wrapper";
 import Menu from "./Menu";
 import MenuMobile from "./MenuMobile";
+import { fetchDataFromApi } from "@/utils/api";
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showCatMenu, setShowCatMenu] = useState(false);
   const [show, setShow] = useState("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [categories, setCategories] = useState(null);
 
-  // scroll window and hide header or navbar logic start
+  // scroll window and hide header logic start
   const controlNavbar = () => {
     if (window.scrollY > 200) {
       if (window.scrollY > lastScrollY && !mobileMenu) {
@@ -36,7 +36,18 @@ const Header = () => {
       window.removeEventListener("scroll", controlNavbar);
     };
   }, [lastScrollY]);
-  // scroll window and hide header or navbar logic end
+  // scroll window and hide header logic end
+
+  // fetch category data start
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const { data } = await fetchDataFromApi("/api/categories?populate=*");
+    setCategories(data);
+  };
+  // fetch category data end
 
   return (
     <header
@@ -53,7 +64,11 @@ const Header = () => {
         </Link>
 
         {/* middle side header menu */}
-        <Menu showCatMenu={showCatMenu} setShowCatMenu={setShowCatMenu} />
+        <Menu
+          showCatMenu={showCatMenu}
+          setShowCatMenu={setShowCatMenu}
+          categories={categories}
+        />
 
         {/* header mobile menu */}
         {mobileMenu && (
@@ -61,6 +76,7 @@ const Header = () => {
             showCatMenu={showCatMenu}
             setShowCatMenu={setShowCatMenu}
             setMobileMenu={setMobileMenu}
+            categories={categories}
           />
         )}
 

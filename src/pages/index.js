@@ -1,8 +1,9 @@
 import HeroBanner from "@/components/HeroBanner";
 import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
+import { fetchDataFromApi } from "@/utils/api";
 
-export default function Home() {
+const Home = ({ products }) => {
   return (
     <main>
       <HeroBanner />
@@ -22,15 +23,21 @@ export default function Home() {
 
         {/* products grid start */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {products?.data?.map((product) => {
+            return <ProductCard key={product?.id} data={product} />;
+          })}
         </div>
         {/* products grid end */}
       </Wrapper>
     </main>
   );
+};
+
+export async function getStaticProps(context) {
+  const products = await fetchDataFromApi("/api/products?populate=*");
+  return {
+    props: { products },
+  };
 }
+
+export default Home;

@@ -1,30 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Wrapper from "@/components/Wrapper";
 import ProductDetailsCarousel from "@/components/ProductDetailsCarousel";
 import RelatedProducts from "@/components/RelatedProducts";
+import { fetchDataFromApi } from "@/utils/api";
+import { getDiscountedPricePercentage } from "@/utils/helper";
+import { addToCart } from "@/store/cartSlice";
 
-const ProductDetails = () => {
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const ProductDetails = ({ product, products }) => {
+  const [selectedSize, setSelectedSize] = useState();
+  const [showError, setShowError] = useState(false);
+  const dispatch = useDispatch();
+
+  const p = product?.data?.[0]?.attributes;
+
+  // toast message
+  const notify = () => {
+    toast.success("Success. Check your cart!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   return (
     <div className="w-full md:py-20">
+      <ToastContainer />
       <Wrapper>
         <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
           {/* left column start */}
           <div className="w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
-            <ProductDetailsCarousel />
+            <ProductDetailsCarousel images={p.image.data} />
           </div>
           {/* left column end */}
 
           {/* right column start */}
           <div className="flex-[1] py-3">
-            {/* PRODUCT TITLE */}
+            {/* product title */}
             <div className="text-[34px] font-semibold mb-2 leading-tight">
-              Product Title
+              {p.name}
             </div>
 
-            {/* PRODUCT SUBTITLE */}
-            <div className="text-lg font-semibold mb-5">Product Subtitle</div>
-            <div className="mr-2 text-lg font-semibold">MRP : $20.00</div>
+            {/* product subtitle */}
+            <div className="text-lg font-semibold mb-5">{p.subtitle}</div>
+
+            {/* product price start */}
+            <div className="flex items-center">
+              <p className="mr-2 text-lg font-semibold">
+                MRP : &#2547;{p.price}
+              </p>
+              {p.original_price && (
+                <>
+                  <p className="text-base  font-medium line-through">
+                    &#2547;{p.original_price}
+                  </p>
+                  <p className="ml-auto text-base font-medium text-green-500">
+                    {getDiscountedPricePercentage(p.original_price, p.price)}%
+                    off
+                  </p>
+                </>
+              )}
+            </div>
+            {/* product price end */}
+
             <div className="text-md font-medium text-black/[0.5]">
               incl. of taxes
             </div>
@@ -32,58 +79,73 @@ const ProductDetails = () => {
               {`(Also includes all applicable duties)`}
             </div>
 
-            {/* PRODUCT SIZE RANGE START */}
+            {/* product size range start */}
             <div className="mb-10">
-              {/* HEADING START */}
+              {/* heading start */}
               <div className="flex justify-between mb-2">
                 <div className="text-md font-semibold">Select Size</div>
                 <div className="text-md font-medium text-black/[0.5] cursor-pointer">
                   Select Guide
                 </div>
               </div>
-              {/* HEADING END */}
+              {/* heading end */}
 
-              {/* SIZE START */}
-              <div className="grid grid-cols-3 gap-2">
-                <div className="border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium hover:border-black cursor-pointer">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 cursor-not-allowed">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 cursor-not-allowed">
-                  UK 8
-                </div>
-                <div className="border rounded-md text-center py-3 font-medium bg-black/[0.1] opacity-50 cursor-not-allowed">
-                  UK 8
-                </div>
+              {/* size start */}
+              <div id="sizesGrid" className="grid grid-cols-3 gap-2">
+                {p.size.data.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`border rounded-md text-center py-3 font-medium ${
+                      item.enabled
+                        ? "hover:border-black cursor-pointer"
+                        : "cursor-not-allowed bg-black/[0.1] opacity-50"
+                    } ${selectedSize === item.size ? "border-black" : ""}`}
+                    onClick={() => {
+                      setSelectedSize(item.size);
+                      setShowError(false);
+                    }}
+                  >
+                    {item.size}
+                  </div>
+                ))}
               </div>
-              {/* SIZE END */}
+              {/* size end */}
 
-              {/* SHOW ERROR START */}
-              <div className="text-red-600 mt-1">
-                Size selection is required
-              </div>
-              {/* SHOW ERROR END */}
+              {/* show error if size not selected - start */}
+              {showError && (
+                <div className="text-red-600 mt-1">
+                  Size selection is required
+                </div>
+              )}
+              {/* show error if size not selected - end */}
             </div>
-            {/* PRODUCT SIZE RANGE END */}
+            {/* product size range end */}
 
-            {/* ADD TO CART BUTTON START */}
-            <button className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75">
+            {/* add to cart button start */}
+            <button
+              className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75"
+              onClick={() => {
+                if (!selectedSize) {
+                  setShowError(true);
+                  document.getElementById("sizesGrid").scrollIntoView({
+                    block: "center",
+                    behavior: "smooth",
+                  });
+                } else {
+                  dispatch(
+                    addToCart({
+                      ...product?.data?.[0],
+                      selectedSize,
+                      oneQuantityPrice: p.price,
+                    })
+                  );
+                  notify();
+                }
+              }}
+            >
               Add To Cart
             </button>
+            {/* add to cart button end */}
 
             {/* wishlist button start */}
             <button className="w-full py-4 rounded-full border border-black text-lg font-medium transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-75 mb-10">
@@ -95,26 +157,50 @@ const ProductDetails = () => {
             {/* product details area */}
             <div>
               <div className="text-lg font-bold mb-5">Product Details</div>
-              <div className=" text-md mb-5">
-                This is a product details section. I will add product details
-                next time. So if you come here to read product details, please
-                skip this portion.
-              </div>
-              <div className=" text-md mb-5">
-                This is a product details section. I will add product details
-                next time. So if you come here to read product details, please
-                skip this portion.
-              </div>
+              <div className=" text-md mb-5">{p.description}</div>
             </div>
           </div>
           {/* left column end */}
         </div>
 
         {/* related products component */}
-        <RelatedProducts />
+        <RelatedProducts products={products} />
       </Wrapper>
     </div>
   );
 };
 
 export default ProductDetails;
+
+// getStaticPaths for dynamic routes
+export async function getStaticPaths() {
+  const products = await fetchDataFromApi("/api/products?populate=*");
+
+  const paths = products.data.map((p) => ({
+    params: {
+      slug: p.attributes.slug,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params: { slug } }) {
+  // fetch data for specific product
+  const product = await fetchDataFromApi(
+    `/api/products?populate=*&filters[slug][$eq]=${slug}`
+  );
+
+  // fetch products of related category product and it's pagination
+  const products = await fetchDataFromApi(
+    // `/api/products?populate=*&[filters][categories][slug][$eq]=${slug}&pagination[page]=1&pagination[pageSize]=${maxResult}`
+    `/api/products?populate=*&[filters][slug][$ne]=${slug}`
+  );
+
+  return {
+    props: { product, products },
+  };
+}

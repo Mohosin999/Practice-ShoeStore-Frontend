@@ -4,7 +4,6 @@ import { BsChevronDown } from "react-icons/bs";
 
 const moreMenuData = [
   { id: 1, name: "About", url: "/about" },
-  { id: 3, name: "Theme" },
   { id: 2, name: "Contact Us", url: "/contact" },
 ];
 

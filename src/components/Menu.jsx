@@ -4,7 +4,6 @@ import { BsChevronDown } from "react-icons/bs";
 
 const moreMenuData = [
   { id: 1, name: "About", url: "/about" },
-  { id: 3, name: "Theme" },
   { id: 2, name: "Contact Us", url: "/contact" },
 ];
 
@@ -15,6 +14,15 @@ const Menu = ({
   moreMenu,
   setMoreMenu,
 }) => {
+  // const moreMenuData = [
+  //   {
+  //     id: 3,
+  //     name: "Dark",
+  //   },
+  //   { id: 1, name: "About", url: "/about" },
+  //   { id: 2, name: "Contact Us", url: "/contact" },
+  // ];
+
   return (
     <ul className="hidden md:flex items-center gap-8 font-medium text-black">
       <Link href="/home">Home</Link>
@@ -68,7 +76,7 @@ const Menu = ({
         <BsChevronDown size={14} />
         {/* Render moreMenu if moreMenuis true */}
         {moreMenu && (
-          <ul className="bg-white absolute top-6 left-0 min-w-[250px] px-1 shadow-lg">
+          <ul className="bg-white absolute top-6 left-0 min-w-[140px] px-1 shadow-lg">
             {/* Map through moreMenuData and render them as Links */}
             {moreMenuData.map(({ name, url, id }) => {
               return (
@@ -76,10 +84,13 @@ const Menu = ({
                   key={id}
                   href={url || ""}
                   className="flex justify-between items-center"
-                  onClick={() => setMoreMenu(false)}
+                  onClick={() => {
+                    // onClick && onClick();
+                    setMoreMenu(false);
+                  }}
                 >
                   {/* Render menu item name */}
-                  <li className="w-full h-12  flex justify-center items-center px-3 hover:bg-black/[0.04] rounded-md">
+                  <li className="w-full h-12 flex items-center px-3 hover:bg-black/[0.04] rounded-md">
                     {name}
                   </li>
                 </Link>

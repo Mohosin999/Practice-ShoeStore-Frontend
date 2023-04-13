@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useSelector } from "react-redux";
+
 import { IoMdHeartEmpty } from "react-icons/io";
-import { BsCart } from "react-icons/bs";
+import { BsCart, BsSun } from "react-icons/bs";
+import { HiMoon } from "react-icons/hi";
 import { BiMenuAltRight, BiSearch } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
+
 import Wrapper from "./Wrapper";
 import Menu from "./Menu";
 import MenuMobile from "./MenuMobile";
 import { fetchDataFromApi } from "@/utils/api";
-import { useSelector } from "react-redux";
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -19,6 +23,15 @@ const Header = () => {
   const [categories, setCategories] = useState(null);
 
   const { cartItems } = useSelector((state) => state.cart);
+
+  // This code is for dark or light mode - start
+  const { theme, setTheme } = useTheme();
+
+  // Handler function to handle theme mode
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+  // This code is for dark or light mode - end
 
   // scroll window and hide header - logic start
   const controlNavbar = () => {
@@ -55,7 +68,9 @@ const Header = () => {
 
   return (
     <header
-      className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
+      className={`w-full h-[50px] md:h-[80px] ${
+        theme === "dark" ? "bg-green-600" : "bg:white"
+      } flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
     >
       <Wrapper className={"h-[60px] flex justify-between items-center"}>
         {/* left side header logo */}
@@ -95,6 +110,25 @@ const Header = () => {
 
         {/* right side header menu icons */}
         <div className="flex items-center gap-2 text-black">
+          {/* Theme Mode - Moon or Sun icon start */}
+          {/* Condition for theme mode icons */}
+          {theme === "dark" ? (
+            <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
+              <BsSun
+                className="text-[19px] md:text-[24px]"
+                onClick={toggleTheme}
+              />
+            </div>
+          ) : (
+            <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
+              <HiMoon
+                className="text-[19px] md:text-[24px]"
+                onClick={toggleTheme}
+              />
+            </div>
+          )}
+          {/* Theme Mode - Moon or Sun icon end */}
+
           {/* Search icon start */}
           <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
             <BiSearch className="text-[19px] md:text-[24px]" />

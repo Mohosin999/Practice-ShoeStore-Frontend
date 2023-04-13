@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",

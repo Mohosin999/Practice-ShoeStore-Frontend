@@ -4,6 +4,7 @@ import { BsChevronDown } from "react-icons/bs";
 
 const moreMenuData = [
   { id: 1, name: "About", url: "/about" },
+  { id: 3, name: "Theme" },
   { id: 2, name: "Contact Us", url: "/contact" },
 ];
 
@@ -17,11 +18,11 @@ const Menu = ({
   return (
     <ul className="hidden md:flex items-center gap-8 font-medium text-black">
       <Link href="/home">Home</Link>
+      {/* Show all products page */}
       <Link href="/products">Products</Link>
 
       {/* Categories menu design */}
-      <Link
-        href=""
+      <li
         className="flex items-center gap-1 relative"
         onMouseEnter={() => setShowCatMenu(true)}
         onMouseLeave={() => setShowCatMenu(false)}
@@ -54,11 +55,10 @@ const Menu = ({
             })}
           </ul>
         )}
-      </Link>
+      </li>
 
       {/* More menu design */}
-      <Link
-        href=""
+      <li
         className="flex items-center gap-1 relative"
         onMouseEnter={() => setMoreMenu(true)}
         onMouseLeave={() => setMoreMenu(false)}
@@ -87,7 +87,10 @@ const Menu = ({
             })}
           </ul>
         )}
-      </Link>
+      </li>
+
+      {/* Sign up or login option */}
+      <Link href="">Sign Up</Link>
     </ul>
   );
 };

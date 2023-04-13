@@ -81,6 +81,7 @@ export default Category;
 
 // getStaticPaths for dynamic routes
 export async function getStaticPaths() {
+  // Get all categories with details
   const category = await fetchDataFromApi("/api/categories?populate=*");
 
   const paths = category.data.map((c) => ({
@@ -96,12 +97,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  // fetch specific category
+  // Fetch specific category
   const category = await fetchDataFromApi(
     `/api/categories?filters[slug][$eq]=${slug}`
   );
 
-  // fetch products specific category and it's pagination
+  // Fetch products specific category and it's pagination
   const products = await fetchDataFromApi(
     `/api/products?populate=*&[filters][categories][slug][$eq]=${slug}&pagination[page]=1&pagination[pageSize]=${maxResult}`
   );

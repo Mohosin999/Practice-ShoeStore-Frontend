@@ -9,20 +9,24 @@ const ProductCard = ({ data }) => {
       className="transform overflow-hidden bg-white duration-200 hover:scale-105 cursor-pointer"
       href={`/product/${data.attributes.slug}`}
     >
+      {/* Product image */}
       <Image
         width={500}
         height={500}
         src={data.attributes.thumbnail.data.attributes.url}
         alt={data.attributes.name}
       />
+      {/* Product details section */}
       <div className="p-4 text-black/[0.9]">
+        {/* Product name */}
         <h2 className="text-lg font-medium">{data.attributes.name}</h2>
+        {/* Product price and discount - start */}
         <div className="flex items-center text-black/[0.5]">
           <p className="mr-2 text-lg font-semibold">
             &#2547;{data.attributes.price}
           </p>
 
-          {/* if original price exist, then this following code will rendered */}
+          {/* If original price exist, then this following code will rendered */}
           {data.attributes.original_price && (
             <>
               <p className="text-base  font-medium line-through">
@@ -38,6 +42,7 @@ const ProductCard = ({ data }) => {
             </>
           )}
         </div>
+        {/* Product price and discount - end */}
       </div>
     </Link>
   );

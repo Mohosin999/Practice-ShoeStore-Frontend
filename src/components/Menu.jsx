@@ -1,10 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 import { BsChevronDown } from "react-icons/bs";
 
 const moreMenuData = [
-  { id: 1, name: "About", url: "/about" },
-  { id: 2, name: "Contact Us", url: "/contact" },
+  { id: 1, name: "Products", url: "/products" },
+  { id: 2, name: "About Us", url: "" },
+  { id: 3, name: "Contact Us", url: "" },
+  { id: 4, name: "FAQs", url: "" },
 ];
 
 const Menu = ({
@@ -14,21 +17,13 @@ const Menu = ({
   moreMenu,
   setMoreMenu,
 }) => {
-  // const moreMenuData = [
-  //   {
-  //     id: 3,
-  //     name: "Dark",
-  //   },
-  //   { id: 1, name: "About", url: "/about" },
-  //   { id: 2, name: "Contact Us", url: "/contact" },
-  // ];
+  const { theme } = useTheme();
 
   return (
-    <ul className="hidden md:flex items-center gap-8 font-medium text-black">
-      <Link href="/home">Home</Link>
-      {/* Show all products page */}
-      <Link href="/products">Products</Link>
-
+    <ul className={`hidden md:flex items-center gap-8 font-medium`}>
+      <Link href="/" className="hover:underline underline-offset-8 ">
+        Home
+      </Link>
       {/* Categories menu design */}
       <li
         className="flex items-center gap-1 relative"
@@ -40,7 +35,13 @@ const Menu = ({
         <BsChevronDown size={14} />
         {/* Render subMenu if showCatMenu is true */}
         {showCatMenu && (
-          <ul className="bg-white absolute top-6 left-0 min-w-[250px] px-1 shadow-lg">
+          <ul
+            className={`${
+              theme === "dark"
+                ? "bg-gray-900 text-gray-100"
+                : "bg-gray-100 text-gray-900"
+            } absolute top-6 left-0 min-w-[250px] px-1 shadow-lg`}
+          >
             {/* Map through categories and render them as Links */}
             {categories?.map(({ attributes: c, id }) => {
               return (
@@ -51,7 +52,13 @@ const Menu = ({
                   onClick={() => setShowCatMenu(false)}
                 >
                   {/* Render category name */}
-                  <li className="w-full h-12 flex justify-between items-center px-3 hover:bg-black/[0.04] rounded-md">
+                  <li
+                    className={`w-full h-12 flex justify-between items-center px-3 ${
+                      theme === "dark"
+                        ? "hover:bg-gray-800"
+                        : "hover:bg-gray-300"
+                    } rounded-md`}
+                  >
                     {c.name}
                     {/* Render number of products in category */}
                     <span className="opacity-50 text-sm px-3">
@@ -76,7 +83,13 @@ const Menu = ({
         <BsChevronDown size={14} />
         {/* Render moreMenu if moreMenuis true */}
         {moreMenu && (
-          <ul className="bg-white absolute top-6 left-0 min-w-[140px] px-1 shadow-lg">
+          <ul
+            className={`${
+              theme === "dark"
+                ? "bg-gray-900 text-gray-100"
+                : "bg-gray-100 text-gray-900"
+            } absolute top-6 left-0 min-w-[160px] px-1 shadow-lg`}
+          >
             {/* Map through moreMenuData and render them as Links */}
             {moreMenuData.map(({ name, url, id }) => {
               return (
@@ -90,7 +103,13 @@ const Menu = ({
                   }}
                 >
                   {/* Render menu item name */}
-                  <li className="w-full h-12 flex items-center px-3 hover:bg-black/[0.04] rounded-md">
+                  <li
+                    className={` ${
+                      theme === "dark"
+                        ? "hover:bg-gray-800"
+                        : "hover:bg-gray-300"
+                    } w-full h-12 flex items-center px-3 hover:bg-black/[0.04] rounded-md`}
+                  >
                     {name}
                   </li>
                 </Link>
@@ -101,7 +120,9 @@ const Menu = ({
       </li>
 
       {/* Sign up or login option */}
-      <Link href="">Sign Up</Link>
+      <Link href="/signup" className="hover:underline underline-offset-8 ">
+        Sign Up
+      </Link>
     </ul>
   );
 };

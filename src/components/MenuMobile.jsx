@@ -1,10 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 import { BsChevronDown } from "react-icons/bs";
 
 const moreMenuData = [
-  { id: 1, name: "About", url: "/about" },
-  { id: 2, name: "Contact Us", url: "/contact" },
+  { id: 1, name: "Products", url: "/products" },
+  { id: 2, name: "About us", url: "/about" },
+  { id: 3, name: "Contact", url: "/contact" },
+  { id: 4, name: "FAQs", url: "/faqs" },
 ];
 
 const MenuMobile = ({
@@ -15,8 +18,16 @@ const MenuMobile = ({
   moreMenu,
   setMoreMenu,
 }) => {
+  const { theme } = useTheme();
+
   return (
-    <ul className="flex flex-col md:hidden font-bold absolute top-[50px] left-0 w-full h-[calc(100vh-50px)] bg-white border-t text-black mb-5">
+    <ul
+      className={`flex flex-col md:hidden font-bold absolute top-[50px] left-0 w-full h-[calc(100vh-50px)] border-t mb-5 ${
+        theme === "dark"
+          ? "bg-gray-800 text-gray-100"
+          : "bg-gray-200 text-gray-900"
+      }`}
+    >
       <Link
         href="/home"
         className="cursor-pointer py-4 px-5 border-b flex flex-col relative"

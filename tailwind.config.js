@@ -13,8 +13,7 @@ module.exports = {
 
   theme: {
     fontFamily: {
-      oswald: "Oswald,sans-serif",
-      urbanist: "Urbanist,sans-serif",
+      oswald: "Roboto,sans-serif",
     },
     extend: {},
   },

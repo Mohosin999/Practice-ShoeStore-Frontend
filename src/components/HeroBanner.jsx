@@ -29,7 +29,7 @@ const HeroBanner = () => {
           </div>
         )}
       >
-        {/* slider images list start */}
+        {/* Slider images list - start */}
         <div>
           <img
             src="/slide-2.png"
@@ -57,7 +57,7 @@ const HeroBanner = () => {
             Shop now
           </div>
         </div>
-        {/* slider images list ends */}
+        {/* Slider images list - end */}
       </Carousel>
     </div>
   );

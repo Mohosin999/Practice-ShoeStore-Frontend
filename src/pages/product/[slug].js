@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = ({ product, products }) => {
-  const [selectedSize, setSelectedSize] = useState();
+  const [selectedSize, setSelectedSize] = useState(null);
   const [showError, setShowError] = useState(false);
 
   const dispatch = useDispatch();
@@ -118,9 +118,11 @@ const ProductDetails = ({ product, products }) => {
                               ? "hover:border-gray-500"
                               : "hover:border-gray-700"
                           } cursor-pointer`
-                        : "cursor-not-allowed bg-black/[0.1] opacity-50"
+                        : `cursor-not-allowed ${
+                            theme === "dark" ? "bg-gray-500" : "bg-gray-400"
+                          } opacity-50`
                     } ${
-                      selectedSize === item.size
+                      item.enabled && selectedSize === item.size
                         ? `${
                             theme === "dark"
                               ? "border-gray-600"
@@ -129,7 +131,9 @@ const ProductDetails = ({ product, products }) => {
                         : ""
                     }`}
                     onClick={() => {
-                      setSelectedSize(item.size);
+                      setSelectedSize(
+                        item.enabled === false ? null : item.size
+                      );
                       setShowError(false);
                     }}
                   >
@@ -137,21 +141,25 @@ const ProductDetails = ({ product, products }) => {
                   </div>
                 ))}
               </div>
-              {/* size end */}
+              {/* Size end */}
 
-              {/* show error if size not selected - start */}
+              {/* Show error if size not selected - start */}
               {showError && (
                 <div className="text-red-600 mt-1">
                   Size selection is required
                 </div>
               )}
-              {/* show error if size not selected - end */}
+              {/* Show error if size not selected - end */}
             </div>
-            {/* product size range end */}
+            {/* Product size range end */}
 
             {/* add to cart button start */}
             <button
-              className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75"
+              className={`w-full py-4 rounded-full ${
+                theme === "dark"
+                  ? "bg-gray-300 text-gray-800"
+                  : "bg-gray-800 text-gray-300"
+              } text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75`}
               onClick={() => {
                 if (!selectedSize) {
                   setShowError(true);
@@ -176,7 +184,13 @@ const ProductDetails = ({ product, products }) => {
             {/* add to cart button end */}
 
             {/* wishlist button start */}
-            <button className="w-full py-4 rounded-full border border-black text-lg font-medium transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-75 mb-10">
+            <button
+              className={`w-full py-4 rounded-full border ${
+                theme === "dark"
+                  ? "border-gray-300 bg-cyan-900"
+                  : "border-gray-700 bg-cyan-500"
+              } text-lg font-medium transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-75 mb-10`}
+            >
               Whishlist
               <IoMdHeartEmpty size={20} />
             </button>

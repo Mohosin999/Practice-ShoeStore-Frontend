@@ -9,11 +9,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <Link
-      className={`${
-        theme === "dark"
-          ? "bg-gray-800 text-gray-200"
-          : "bg-gray-200 text-gray-800"
-      } transform overflow-hidden duration-200 hover:scale-105 cursor-pointer`}
+      className={` transform overflow-hidden duration-200 hover:scale-105 cursor-pointer`}
       href={`/product/${data.attributes.slug}`}
     >
       {/* Product image */}
@@ -24,7 +20,13 @@ const ProductCard = ({ data }) => {
         alt={data.attributes.name}
       />
       {/* Product details section */}
-      <div className="p-4">
+      <div
+        className={`${
+          theme === "dark"
+            ? "bg-gray-800 text-gray-200"
+            : "bg-gray-200 text-gray-800"
+        } p-4`}
+      >
         {/* Product name */}
         <h2 className="text-lg font-medium">{data.attributes.name}</h2>
         {/* Product price and discount - start */}

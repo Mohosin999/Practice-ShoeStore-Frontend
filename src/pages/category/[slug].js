@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 import useSWR from "swr";
+
 import Wrapper from "@/components/Wrapper";
 import ProductCard from "@/components/ProductCard";
 import { fetchDataFromApi } from "@/utils/api";
@@ -11,6 +13,7 @@ const Category = ({ category, products, slug }) => {
   // pagination and it's next page data fetch start
   const [pageIndex, setPageIndex] = useState(1);
   const { query } = useRouter();
+  const { theme } = useTheme();
 
   useEffect(() => {
     setPageIndex(1);
@@ -24,7 +27,11 @@ const Category = ({ category, products, slug }) => {
   // pagination and it's next page data fetch end
 
   return (
-    <div className="w-full md:py-20 relative">
+    <div
+      className={`${
+        theme === "dark" ? "text-gray-300" : "text-gray-700"
+      } w-full md:py-20 relative`}
+    >
       <Wrapper>
         {/* category page title */}
         <div className="text-center max-w-[800px] mx-auto mt-8 md:mt-0">
@@ -45,7 +52,11 @@ const Category = ({ category, products, slug }) => {
         {data?.meta?.pagination?.total > maxResult && (
           <div className="flex gap-3 items-center justify-center my-16 md:my-0">
             <button
-              className={`rounded py-2 px-4 bg-black text-white disabled:bg-gray-200 disabled:text-gray-500`}
+              className={`${
+                theme === "dark"
+                  ? "bg-gray-200 disabled:bg-gray-500 text-gray-800 disabled:text-gray-300"
+                  : "bg-gray-800 disabled:bg-gray-500 text-gray-200 disabled:text-gray-300"
+              } rounded py-2 px-4 `}
               disabled={pageIndex === 1}
               onClick={() => setPageIndex(pageIndex - 1)}
             >
@@ -57,7 +68,11 @@ const Category = ({ category, products, slug }) => {
             }`}</span>
 
             <button
-              className={`rounded py-2 px-4 bg-black text-white disabled:bg-gray-200 disabled:text-gray-500`}
+              className={`${
+                theme === "dark"
+                  ? "bg-gray-200 disabled:bg-gray-500 text-gray-800 disabled:text-gray-300"
+                  : "bg-gray-800 disabled:bg-gray-500 text-gray-200 disabled:text-gray-300"
+              } rounded py-2 px-4`}
               disabled={pageIndex === (data && data.meta.pagination.pageCount)}
               onClick={() => setPageIndex(pageIndex + 1)}
             >

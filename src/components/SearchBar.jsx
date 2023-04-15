@@ -75,7 +75,7 @@ const SearchBar = () => {
       {openSearchBox && (
         <div
           className={`${
-            theme === "dark" ? "bg-gray-800" : "bg-gray-500"
+            theme === "dark" ? "bg-gray-700" : "bg-gray-500"
           } w-full absolute top-[50px] md:top-[80px] right-0 mb-4 shadow-lg`}
         >
           <SearchBox

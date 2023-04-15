@@ -71,8 +71,8 @@ const Header = () => {
     <header
       className={`w-full h-[50px] md:h-[80px] ${
         theme === "dark"
-          ? "bg-gray-900 text-gray-100"
-          : "bg-gray-100 text-gray-900"
+          ? "bg-gray-800 text-gray-200"
+          : "bg-gray-200 text-gray-800"
       } flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
     >
       <Wrapper className={"h-[60px] flex justify-between items-center"}>

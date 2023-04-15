@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTheme } from "next-themes";
 import { IoMdHeartEmpty } from "react-icons/io";
+
 import Wrapper from "@/components/Wrapper";
 import ProductDetailsCarousel from "@/components/ProductDetailsCarousel";
 import RelatedProducts from "@/components/RelatedProducts";
@@ -14,7 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 const ProductDetails = ({ product, products }) => {
   const [selectedSize, setSelectedSize] = useState();
   const [showError, setShowError] = useState(false);
+
   const dispatch = useDispatch();
+  const { theme } = useTheme();
 
   const p = product?.data?.[0]?.attributes;
 
@@ -33,7 +37,11 @@ const ProductDetails = ({ product, products }) => {
   };
 
   return (
-    <div className="w-full md:py-20">
+    <div
+      className={`w-full md:py-20 ${
+        theme === "dark" ? "text-gray-200" : "text-gray-800"
+      }`}
+    >
       <ToastContainer />
       <Wrapper>
         <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
@@ -72,11 +80,15 @@ const ProductDetails = ({ product, products }) => {
             </div>
             {/* product price end */}
 
-            <div className="text-md font-medium text-black/[0.5]">
-              incl. of taxes
-            </div>
-            <div className="text-md font-medium text-black/[0.5] mb-20">
-              {`(Also includes all applicable duties)`}
+            <div
+              className={`${
+                theme === "dark" ? "text-gray-400" : "text-gray-400"
+              }`}
+            >
+              <div className="text-md font-medium">incl. of taxes</div>
+              <div className="text-md font-medium mb-20">
+                {`(Also includes all applicable duties)`}
+              </div>
             </div>
 
             {/* product size range start */}
@@ -84,7 +96,11 @@ const ProductDetails = ({ product, products }) => {
               {/* heading start */}
               <div className="flex justify-between mb-2">
                 <div className="text-md font-semibold">Select Size</div>
-                <div className="text-md font-medium text-black/[0.5] cursor-pointer">
+                <div
+                  className={`text-md font-medium ${
+                    theme === "dark" ? "text-gray-400" : "text-gray-400"
+                  } cursor-pointer`}
+                >
                   Select Guide
                 </div>
               </div>
@@ -97,9 +113,21 @@ const ProductDetails = ({ product, products }) => {
                     key={i}
                     className={`border rounded-md text-center py-3 font-medium ${
                       item.enabled
-                        ? "hover:border-black cursor-pointer"
+                        ? `${
+                            theme === "dark"
+                              ? "hover:border-gray-500"
+                              : "hover:border-gray-700"
+                          } cursor-pointer`
                         : "cursor-not-allowed bg-black/[0.1] opacity-50"
-                    } ${selectedSize === item.size ? "border-black" : ""}`}
+                    } ${
+                      selectedSize === item.size
+                        ? `${
+                            theme === "dark"
+                              ? "border-gray-600"
+                              : "border-gray-700"
+                          }`
+                        : ""
+                    }`}
                     onClick={() => {
                       setSelectedSize(item.size);
                       setShowError(false);

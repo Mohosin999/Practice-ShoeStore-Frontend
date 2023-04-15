@@ -13,8 +13,7 @@ import Wrapper from "./Wrapper";
 import Menu from "./Menu";
 import MenuMobile from "./MenuMobile";
 import { fetchDataFromApi } from "@/utils/api";
-import SearchBox from "./SearchBox";
-import SearchBar from "./SearchBox";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -23,9 +22,6 @@ const Header = () => {
   const [show, setShow] = useState("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [categories, setCategories] = useState(null);
-  // This state is for search box
-  const [openSearchBox, setOpenSearchBox] = useState(false);
-  const [search, setSearch] = useState("");
 
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -124,23 +120,7 @@ const Header = () => {
         {/* Right side header menu icons */}
         <div className="flex items-center gap-2">
           {/* Search & Search Box codes - start */}
-          {/* Search icon start */}
-          {/* <div
-            className={` ${
-              theme === "dark" ? "hover:bg-gray-800" : "hover:bg-gray-300"
-            } w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative`}
-            onClick={() => setOpenSearchBox(!openSearchBox)}
-          >
-            <BiSearch className="text-[19px] md:text-[24px]" />
-          </div> */}
-          {/* Search icon end */}
-          {/* Show search box */}
-          {/* {openSearchBox && (
-            <div className="bg-green-600 w-2/3 absolute top-24 right-10">
-              <SearchBox />
-            </div>
-          )} */}
-          <SearchBar theme={theme} />
+          <SearchBar />
           {/* Search & Search Box codes - end */}
 
           {/* Theme Mode - Moon or Sun icon start */}

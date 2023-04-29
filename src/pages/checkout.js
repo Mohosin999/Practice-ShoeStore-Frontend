@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Script from "next/script";
 
 const CheckOut = () => {
   const [form, setForm] = useState({ name: "", email: "", address: "" });
@@ -160,39 +159,3 @@ const CheckOut = () => {
 };
 
 export default CheckOut;
-
-
-{/* <Script type="application/javascript" src={`https://securegw.paytm.in/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_MID)}.js`} onload="onScriptLoad();" crossorigin="anonymous"></Script>
-<Script>
-  function onScriptLoad(){
-      var config = {
-        "root": "",
-        "flow": "DEFAULT",
-        "data": {
-          "orderId": "", /* update order id */
-          "token": "", /* update token value */
-          "tokenType": "TXN_TOKEN",
-          "amount": "" /* update amount */
-        },
-        "handler": {
-          "notifyMerchant": function(eventName,data){
-            console.log("notifyMerchant handler function called");
-            console.log("eventName => ",eventName);
-            console.log("data => ",data);
-          } 
-        }
-      };
-
-      if(window.Paytm && window.Paytm.CheckoutJS){
-          window.Paytm.CheckoutJS.onLoad(function excecuteAfterCompleteLoad() {
-              // initialze configuration using init method 
-              window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-                  // after successfully updating configuration, invoke JS Checkout
-                  window.Paytm.CheckoutJS.invoke();
-              }).catch(function onError(error){
-                  console.log("error => ",error);
-              });
-          });
-      } 
-  }
-</Script> */}

@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import HeroBanner from "@/components/HeroBanner";
+// import HeroBanner from "@/components/HeroBanner";
 import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
 import { fetchDataFromApi } from "@/utils/api";
@@ -9,7 +9,8 @@ const Home = ({ products }) => {
 
   return (
     <main>
-      <HeroBanner />
+      {/* It's slider - react responsive carousel */}
+      {/* <HeroBanner /> */}
       <Wrapper>
         {/* Home page title and paragraph start */}
         <div className="text-center max-w-[800px] mx-auto my-[50px] md:my-[80px]">
@@ -18,7 +19,7 @@ const Home = ({ products }) => {
               theme === "dark" ? "text-gray-200" : "text-gray-800"
             } text-[28px] md:text-[34px] mb-5 font-semibold leading-tight`}
           >
-            Cushioning for Your Miles
+            Here You Can Buy All Kind of Shoes
           </div>
           <div
             className={`${
@@ -31,6 +32,10 @@ const Home = ({ products }) => {
           </div>
         </div>
         {/* Home page title and paragraph end */}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
+          <h2>Newest Shoes</h2>
+        </div>
 
         {/* products grid start */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">

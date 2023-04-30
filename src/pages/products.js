@@ -1,57 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 import useSWR from "swr";
-
-import Wrapper from "@/components/Wrapper";
 import ProductCard from "@/components/ProductCard";
+import Wrapper from "@/components/Wrapper";
 import { fetchDataFromApi } from "@/utils/api";
 
-const maxResult = 3;
+const maxResult = 6;
 
-const Category = ({ category, products, slug }) => {
+const ProductsPage = ({ products }) => {
   const { theme } = useTheme();
+  const router = useRouter();
+  // Pagination logic - start
+  let [pageIndex, setPageIndex] = useState(1);
 
-  // Pagination and it's next page data fetch - start
-  const [pageIndex, setPageIndex] = useState(1);
-  const { query } = useRouter();
-
-  useEffect(() => {
-    setPageIndex(1);
-  }, [query]);
-
-  const { data, error, isLoading } = useSWR(
-    `/api/products?populate=*&[filters][categories][slug][$eq]=${slug}&pagination[page]=${pageIndex}&pagination[pageSize]=${maxResult}`,
+  const { data, isLoading } = useSWR(
+    `/api/products?populate=*&pagination[page]=${pageIndex}&pagination[pageSize]=${maxResult}`,
     fetchDataFromApi,
     { fallbackData: products }
   );
-  // Pagination and it's next page data fetch - end
+  // Pagination logic - end
 
   return (
-    <div
-      className={`${
-        theme === "dark" ? "text-gray-300" : "text-gray-700"
-      } w-full md:py-20 relative`}
-    >
-      <Wrapper>
-        {/* Category page title */}
-        <div className="text-center max-w-[800px] mx-auto mt-8 md:mt-0">
-          <div className="text-[28px] md:text-[34px] mb-5 font-semibold leading-tight">
-            {category?.data?.[0]?.attributes?.name}
-          </div>
-        </div>
-
-        {/* Products grid - start */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
+    <Wrapper>
+      <div className="flex flex-wrap">
+        <div className="w-1/3">Others</div>
+        {/* Show fetching products grid - start */}
+        <div className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mt-5 mb-5 px-5 md:px-0">
           {data?.data?.map((product) => {
             return <ProductCard key={product?.id} data={product} />;
           })}
         </div>
-        {/* Products grid - end */}
+        {/* Show fetching products grid - end */}
 
         {/* Pagination button - start */}
         {data?.meta?.pagination?.total > maxResult && (
-          <div className="flex gap-3 items-center justify-center my-16 md:my-0">
+          <div className="flex gap-3 items-center justify-center my-16 md:mb-8 md:mt-0 ml-auto">
             <button
               className={`${
                 theme === "dark"
@@ -94,42 +78,18 @@ const Category = ({ category, products, slug }) => {
           </div>
         )}
         {/* If loading, then this loading logo shows - start */}
-      </Wrapper>
-    </div>
+      </div>
+    </Wrapper>
   );
 };
 
-export default Category;
+export default ProductsPage;
 
-// getStaticPaths for dynamic routes
-export async function getStaticPaths() {
-  // Get all categories with details
-  const category = await fetchDataFromApi("/api/categories?populate=*");
-
-  const paths = category.data.map((c) => ({
-    params: {
-      slug: c.attributes.slug,
-    },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params: { slug } }) {
-  // Fetch specific category
-  const category = await fetchDataFromApi(
-    `/api/categories?filters[slug][$eq]=${slug}`
-  );
-
-  // Fetch products specific category and it's pagination
+export async function getServerSideProps(context) {
   const products = await fetchDataFromApi(
-    `/api/products?populate=*&[filters][categories][slug][$eq]=${slug}&pagination[page]=1&pagination[pageSize]=${maxResult}`
+    `/api/products?populate=*&pagination[page]=1&pagination[pageSize]=${maxResult}`
   );
-
   return {
-    props: { category, products, slug },
+    props: { products },
   };
 }

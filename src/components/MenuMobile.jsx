@@ -29,7 +29,7 @@ const MenuMobile = ({
       }`}
     >
       <Link
-        href="/home"
+        href="/"
         className="cursor-pointer py-4 px-5 border-b flex flex-col relative"
       >
         Home

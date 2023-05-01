@@ -95,10 +95,10 @@ const ProductsPage = ({ products }) => {
               </div>
               {/* Filtering - filter by price - end */}
 
-              {/* Search by name - start */}
+              {/* Filter by name - start */}
               <div className="mt-10">
                 <h3 className="text-bold text-[20px] text-green-600 mb-1">
-                  Search by Name
+                  Filter by Name
                 </h3>
                 <input
                   value={searchOption}
@@ -108,7 +108,7 @@ const ProductsPage = ({ products }) => {
                   className="bg-gray-200 px-2 py-1 text-sm"
                 />
               </div>
-              {/* Search by name - end */}
+              {/* Filter by name - end */}
             </div>
           </div>
         </div>

@@ -5,13 +5,16 @@ import { ImCross } from "react-icons/im";
 
 // Search box codes
 const SearchBox = ({ openSearchBox, setOpenSearchBox }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  console.log(searchQuery);
+
   const { theme } = useTheme();
 
   return (
     <div className=" flex w-full py-10 justify-center items-end">
       <div className="relative mr-4 lg:w-full xl:w-1/2 w-2/4 md:w-full text-left">
         <label
-          for="hero-field"
+          htmlFor="hero-field"
           className={`${
             theme === "dark" ? "text-gray-400 " : "text-gray-200"
           } leading-7 text-sm`}
@@ -23,6 +26,8 @@ const SearchBox = ({ openSearchBox, setOpenSearchBox }) => {
           id="hero-field"
           name="hero-field"
           placeholder="type here..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.name)}
           className={`${
             theme === "dark"
               ? "bg-gray-500 focus:bg-gray-700"

@@ -4,12 +4,12 @@ import HeroBanner from "@/components/HeroBanner";
 import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
 import { fetchDataFromApi } from "@/utils/api";
-// import { useRouter } from "next/router";
 import useButtonClickedEvent from "@/hooks/useButtonClickedEvent";
 
 const Home = ({ products }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { theme } = useTheme();
-  // const router = useRouter();
   // Button click event hook
   const { handleClick, highlighted } = useButtonClickedEvent();
 
@@ -17,9 +17,22 @@ const Home = ({ products }) => {
     <main>
       {/* It's slider - react responsive carousel */}
       <HeroBanner />
+
+      {/* Live search input box - start */}
+      <div className="flex items-center mb-8">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search products..."
+          className="border border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+      {/* Live search input box - end */}
+
       <Wrapper>
         {/* Home page title and paragraph start */}
-        <div className="text-center max-w-[800px] mx-auto my-[50px] md:my-[80px]">
+        {/* <div className="text-center max-w-[800px] mx-auto my-[50px] md:my-[80px]">
           <div
             className={`${
               theme === "dark" ? "text-gray-200" : "text-gray-800"
@@ -36,12 +49,8 @@ const Home = ({ products }) => {
             heights to help provide cushioning during extended stretches of
             running.
           </div>
-        </div>
-        {/* Home page title and paragraph end */}
-
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
-          <h2>Newest Shoes</h2>
         </div> */}
+        {/* Home page title and paragraph end */}
 
         <div className="flex">
           {/* All products heading and button - start */}
@@ -66,9 +75,20 @@ const Home = ({ products }) => {
 
         {/* Show fetching products grid - start */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 mb-14 px-5 md:px-0">
-          {products?.data?.slice(0, 6).map((product) => {
-            return <ProductCard key={product?.id} data={product} />;
-          })}
+          {/* Live search condition also apply here */}
+          {searchQuery
+            ? products?.data
+                ?.filter((product) =>
+                  product.attributes.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+                )
+                .map((product) => {
+                  return <ProductCard key={product?.id} data={product} />;
+                })
+            : products?.data?.slice(0, 6).map((product) => {
+                return <ProductCard key={product?.id} data={product} />;
+              })}
         </div>
         {/* Show fetching products grid - end */}
       </Wrapper>

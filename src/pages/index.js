@@ -1,13 +1,17 @@
+import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import HeroBanner from "@/components/HeroBanner";
 import ProductCard from "@/components/ProductCard";
 import Wrapper from "@/components/Wrapper";
 import { fetchDataFromApi } from "@/utils/api";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+import useButtonClickedEvent from "@/hooks/useButtonClickedEvent";
 
 const Home = ({ products }) => {
   const { theme } = useTheme();
-  const router = useRouter();
+  // const router = useRouter();
+  // Button click event hook
+  const { handleClick, highlighted } = useButtonClickedEvent();
 
   return (
     <main>
@@ -50,8 +54,10 @@ const Home = ({ products }) => {
           </h3>
           {/* Show more button */}
           <button
-            onClick={() => router.push("/products")}
-            className="ml-auto mb-0 text-amber-500 hover:text-amber-600"
+            onClick={() => handleClick("/products")}
+            className={`ml-auto mb-0  text-orange-600 hover:text-orange-500 rounded-full px-2 py-1 ${
+              highlighted ? "bg-gray-300" : ""
+            }`}
           >
             Show More
           </button>
